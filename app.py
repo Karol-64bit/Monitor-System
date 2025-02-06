@@ -11,6 +11,9 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 from reportlab.lib.pagesizes import A4
 
+import threading
+from agregotor import run_aggregator
+
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 
@@ -655,6 +658,8 @@ def search():
     return render_template("wykresPoloczen.html", dates=dates, counts=counts)
 
 if __name__ == "__main__":
+
+    threading.Thread(target=run_aggregator, daemon=True).start()
     synchronizujAdresy()
     app.run(debug=True)
     # app.run()
